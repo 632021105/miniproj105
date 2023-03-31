@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:proj/pages/editvm.dart';
 import 'package:proj/pages/homevd.dart';
 import 'package:proj/pages/homevm.dart';
+import 'package:proj/pages/loginpage.dart';
 import 'package:proj/pages/mnvd.dart';
+import 'package:proj/pages/namereturnvd.dart';
 import 'package:proj/pages/returnvd.dart';
+
 
 class mnvmPage extends StatefulWidget {
   const mnvmPage({ Key? key }) : super(key: key);
@@ -34,7 +37,7 @@ class _mndmPageState extends State<mnvmPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('จัดการข้อมูลรายเดือน'),
+        title: const Text(''),
 
         
       ),
@@ -47,11 +50,22 @@ class _mndmPageState extends State<mnvmPage> {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-           child: Text('ฝากรถรายเดือน'),
+                 child:  CircleAvatar(
+  backgroundColor: Color(0xffE6E6E6),
+
+  child: Icon(
+    Icons.person,
+    color: Color(0xffCCCCCC),
+   
+  
+  ),
+
+
+),
           ),
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายวัน'),
             onTap: () {
@@ -62,7 +76,7 @@ class _mndmPageState extends State<mnvmPage> {
           ),
           ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายเดือน'),
             onTap: () {
@@ -73,55 +87,53 @@ class _mndmPageState extends State<mnvmPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายวัน'),
+            title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvdPage(),
                   ));
             },
           ),
-
-            
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายเดือน'),
+            title: const Text('จัดการข้อมูลรายเดือน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvmPage(),
                   ));
             },
           ),
-              ListTile(
+
+            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('คืนรถ(รายวัน)'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const returnvdPage(),
+                    builder: (context) => const rmnvdPage(),
                   ));
             },
           ),
 
-
-
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ออกจากระบบ'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context,MaterialPageRoute(
+                    builder: (context) => const LoginPage()
+                  ));
             },
           ),
         ],
       ),
     ),
-      
       
       body: SafeArea(
         child: Padding(
@@ -142,7 +154,7 @@ class _mndmPageState extends State<mnvmPage> {
   Widget showRealtimeChange() {
     return Column(
       children: [
-        Text("รายการฝากรถรายเดือน\n",style: TextStyle(fontSize: 30.0,
+        Text("จัดการข้อมูลรายเดือน\n",style: TextStyle(fontSize: 30.0,
               
                    fontStyle: FontStyle.normal),),
 

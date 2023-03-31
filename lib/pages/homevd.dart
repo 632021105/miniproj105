@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:proj/pages/mnvd.dart';
 import 'package:proj/pages/homevm.dart';
 import 'package:proj/pages/mnvm.dart';
+import 'package:proj/pages/namereturnvd.dart';
 import 'package:proj/pages/returnvd.dart';
+
 
 class HomevdPage extends StatefulWidget {
   const HomevdPage({super.key});
@@ -19,6 +21,7 @@ class _HomevdPageState extends State<HomevdPage> {
   final _vrcarController = TextEditingController();
   final _dateCotroller = TextEditingController();
   final _telCotroller = TextEditingController();
+  final _amountCotroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,18 @@ class _HomevdPageState extends State<HomevdPage> {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-           child: Text('ฝากรถรายเดือน'),
+                 child:  CircleAvatar(
+  backgroundColor: Color(0xffE6E6E6),
+
+  child: Icon(
+    Icons.person,
+    color: Color(0xffCCCCCC),
+   
+  
+  ),
+
+
+),
           ),
           ListTile(
             leading: Icon(
@@ -60,9 +74,9 @@ class _HomevdPageState extends State<HomevdPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายวัน'),
+            title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvdPage(),
@@ -71,32 +85,29 @@ class _HomevdPageState extends State<HomevdPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายเดือน'),
+            title: const Text('จัดการข้อมูลรายเดือน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvmPage(),
                   ));
             },
           ),
-         ListTile(
+  ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('คืนรถ(รายวัน)'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const returnvdPage(),
+                    builder: (context) => const rmnvdPage(),
                   ));
             },
           ),
-
-
-
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ออกจากระบบ'),
             onTap: () {
@@ -162,30 +173,72 @@ class _HomevdPageState extends State<HomevdPage> {
     
           TextFormField
           (
+          
             controller: _nameController,
             decoration: const InputDecoration(
               labelText: "ชื่อ-นามสกุล",
             ),
+             validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
            
            
           ),
 
          TextFormField(
+   
             controller: _telCotroller,
             decoration: const InputDecoration(
               labelText: "เบอร์โทรศัพท์",
              
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
 
   
 
           TextFormField(
+          
             controller: _vrcarController,
             decoration: const InputDecoration(
               labelText: "เลขทะเบียน",
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
+
+
+              TextFormField(
+               
+            controller: _amountCotroller,
+            decoration: const InputDecoration(
+              labelText: "จำนวนเงินที่ได้รับ",
+              ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+          ),
+
+          
+         
+        
+
+        
 
         
 
@@ -230,12 +283,14 @@ class _HomevdPageState extends State<HomevdPage> {
                 "Ncar": _vrcarController.text,
                 "date":_dateCotroller.text,
                 "tel":_telCotroller.text,
+                "amount":_amountCotroller.text,
               
               });
               _formKey.currentState!.reset();
             },
 
             child: const Text("Save"),
+            
           ),
           const Divider(),
 
@@ -251,6 +306,7 @@ class _HomevdPageState extends State<HomevdPage> {
       
   
       ),
+      
     );
   }
 

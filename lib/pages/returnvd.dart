@@ -2,30 +2,55 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proj/pages/homevd.dart';
+import 'package:proj/pages/loginpage.dart';
 import 'package:proj/pages/mnvd.dart';
 import 'package:proj/pages/homevm.dart';
 import 'package:proj/pages/mnvm.dart';
+import 'package:proj/pages/namereturnvd.dart';
+import 'package:proj/pages/returnvd.dart';
 
-class returnvdPage extends StatefulWidget {
-  const returnvdPage({super.key});
 
+class reditvdPage extends StatefulWidget {
+  const reditvdPage({Key? key, required this.id}) : super(key: key);
+  final String id;
   @override
-  State<returnvdPage> createState() => _returnvdPageState();
+  State<reditvdPage> createState() => _reditvdPageState();
+
 }
 
-class _returnvdPageState extends State<returnvdPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _vrcarController = TextEditingController();
-  final _datereturnCotroller = TextEditingController();
-  final _telCotroller = TextEditingController();
-  // final _pricevdCotroller = TextEditingController();
-  final _amountvdCotroller = TextEditingController();
+
+  class _reditvdPageState extends State<reditvdPage> {
+
+
+  
+  // ignore: prefer_final_fields
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _vrcarController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+   TextEditingController _telController = TextEditingController();
+    TextEditingController _amountController = TextEditingController();
+
+  
+  CollectionReference Vd = FirebaseFirestore.instance.collection('Vd');
+
+
+Future<void> updateProduct() {
+    return Vd.doc(widget.id).update({
+      'username': _nameController.text,
+      'Ncar': _vrcarController.text,
+    }).then((value) {
+      print("Data updated successfully");
+      Navigator.pop(context);
+    }).catchError((error) => print("Failed to update user: $error"));
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('คืนรถ(รายวัน)'),
+        title: const Text(''),
       ),
       drawer: Drawer(
       child: ListView(
@@ -36,11 +61,22 @@ class _returnvdPageState extends State<returnvdPage> {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-           child: Text(''),
+                child:  CircleAvatar(
+  backgroundColor: Color(0xffE6E6E6),
+
+  child: Icon(
+    Icons.person,
+    color: Color(0xffCCCCCC),
+   
+  
+  ),
+
+
+),
           ),
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายวัน'),
             onTap: () {
@@ -51,7 +87,7 @@ class _returnvdPageState extends State<returnvdPage> {
           ),
           ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายเดือน'),
             onTap: () {
@@ -62,9 +98,9 @@ class _returnvdPageState extends State<returnvdPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายวัน'),
+            title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvdPage(),
@@ -73,48 +109,49 @@ class _returnvdPageState extends State<returnvdPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายเดือน'),
+            title: const Text('จัดการข้อมูลรายเดือน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvmPage(),
                   ));
             },
           ),
+
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('คืนรถ(รายวัน)'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const returnvdPage(),
+                    builder: (context) => const rmnvdPage(),
                   ));
             },
           ),
+
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ออกจากระบบ'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context,MaterialPageRoute(
+                    builder: (context) => const LoginPage()
+                  ));
             },
           ),
         ],
       ),
     ),
       body: SafeArea(
-
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
-            
             shrinkWrap: true,
             children: [
-             
-              addDataSection(),
+              editformfield(context)
               // showOnetimeRead(),
               // showRealtimeChange(),
             ],
@@ -124,154 +161,183 @@ class _returnvdPageState extends State<returnvdPage> {
     );
   }
 
-  
 
-  
-  Widget addDataSection() {
-    return Form(
-      key: _formKey,
-      
-      child: Container(
-        
-        padding: const EdgeInsets.only(top: 40),
-        
-        
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              
-               margin: const EdgeInsets.only(left: 35, right: 35),
-               
-               child: Column(
-                
+Widget editformfield(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot>(
+      future: Vd.doc(widget.id).get(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+
+          _nameController.text = data['username'];
+          _vrcarController.text = data['Ncar'];
+           _dateController.text = data['date'];
+           _telController.text = data['tel'];
+          _amountController.text = data['amount'];
+
+
+
+
+          return SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.only(top: 57),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text("คืนรถ(รายวัน)\n",style: TextStyle(fontSize: 30.0,
+                  Container(
+                    margin: const EdgeInsets.only(left: 35, right: 35),
+                    child: Column(
+                      children: [
+
+                         Text("คืนรถรายวัน\n",style: TextStyle(fontSize: 30.0,
 
                    fontStyle: FontStyle.normal),),
-
-                   const Divider(),
-
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'ชื่อ-สกุล',
+                
+                            ),
+                          ),
+                           validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+                        ),
                       
 
-         
-                    
-
-
-    
-          TextFormField
-          (
-            controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: "ชื่อ-นามสกุล",
-            ),
-           
-           
-          ),
-
-         TextFormField(
-            controller: _telCotroller,
-            decoration: const InputDecoration(
-              labelText: "เบอร์โทรศัพท์",
-             
-              ),
-          ),
-
-  
-
-          TextFormField(
-            controller: _vrcarController,
-            decoration: const InputDecoration(
-              labelText: "เลขทะเบียน",
-              ),
-          ),
-
-          TextFormField(
-            controller: _vrcarController,
-            decoration: const InputDecoration(
-              labelText: "วันที่ฝากรถ",
-              ),
-          ),
-
-          //        TextFormField(
-          //   controller: _pricevdCotroller,
-          //   decoration: const InputDecoration(
-          //     labelText: "จำนวนเงินที่ต้องชำระเงิน",
-          //     ),
-          // ),
-
-          TextFormField(
-            controller: _amountvdCotroller,
-            decoration: const InputDecoration(
-              labelText: "จำนวนเงินที่ได้รับ",
-              ),
-          ),
 
 
 
-           TextField(
-                controller: _datereturnCotroller, //editing controller of this TextField
-                decoration: InputDecoration( 
-                   icon: Icon(Icons.calendar_today), //icon of text field
-                   labelText: "วันที่คืนรถ", //label text of field
-                ),
-                readOnly: true,  //set it true, so that user will not able to edit text
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context, initialDate: DateTime.now(),
-                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2101)
-                  );
-                  
-                  if(pickedDate != null ){
-                      print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
-                      print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                        //you can implement different kind of Date Format here according to your requirement
 
-                      setState(() {
-                         _datereturnCotroller.text = formattedDate; //set output date to TextField value. 
-                      });
-                  }else{
-                      print("Date is not selected");
-                  }
-                },
-             ),
+                        TextFormField(
+                          controller: _vrcarController,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'ทะเบียนรถ',
+                            ),
+                           
+                          
+                          ),
+                           validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+                        ),
 
 
-             
-      
-            ElevatedButton(
-            onPressed: () {
-              FirebaseFirestore.instance.collection("returnvd").add({
-                "username": _nameController.text,
-                "Ncar": _vrcarController.text,
-                "datereturn":_datereturnCotroller.text,
-                "tel":_telCotroller.text,
-                "amount":_amountvdCotroller
-              
-              });
-              _formKey.currentState!.reset();
-            },
+                        
+                        TextFormField(
+                          controller: _telController,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'เบอร์โทรศัพท์',
+                            ),
+                           
+                          
+                          ),
+                           validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+                        ),
 
+
+                                      
+                        TextFormField(
+                          controller: _amountController,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'จำนวนเงินที่ได้รับ',
+                            ),
+                           
+                          
+                          ),
+                           validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+                        ),
+
+
+                         TextFormField(
+                          controller: _dateController,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'วันที่ฝากรถ',
+                            ),
+                           
+                          
+                          ),
+                           validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+                        ),
+
+
+
+
+
+
+
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
+                        // const SizedBox(
+                        //   height: 40,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text(
+                        //       'บันทึกข้อมูล',
+                        //       style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 27,
+                        //           fontWeight: FontWeight.w700),
+                        //     ),
+                        //     CircleAvatar(
+                        //       radius: 30,
+                        //       backgroundColor:
+                        //           Color.fromARGB(255, 238, 204, 231),
+                        //       child: IconButton(
+                        //           color: Colors.pink,
+                        //           onPressed: updateProduct,
+                        //           icon: const Icon(
+                        //             Icons.arrow_forward,
+                        //           )),
+                        //     )
+                        //   ],
+                        // ),
+
+ ElevatedButton(
+            onPressed: updateProduct,
             child: const Text("Save"),
           ),
-          const Divider(),
 
-
+                      ],
+                    ),
+                  )
                 ],
-
-               ),
-
-            )
-          ],
-
-        ),
-      
-  
-      ),
+              ),
+            ),
+          );
+        }
+        return const Text('Loading');
+      },
     );
   }
-
- 
 }

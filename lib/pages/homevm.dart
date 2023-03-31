@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:proj/pages/loginpage.dart';
 import 'package:proj/pages/mnvd.dart';
 import 'package:proj/pages/homevd.dart';
 import 'package:proj/pages/mnvm.dart';
+import 'package:proj/pages/namereturnvd.dart';
 import 'package:proj/pages/returnvd.dart';
+
 
 class HomevmPage extends StatefulWidget {
   const HomevmPage({super.key});
@@ -21,6 +24,7 @@ class _HomevmPageState extends State<HomevmPage> {
   final _telCotroller = TextEditingController();
   final _brandCotroller = TextEditingController();
   final _colorCotroller = TextEditingController();
+    final _amountCotroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +36,26 @@ class _HomevmPageState extends State<HomevmPage> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+         const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-           child: Text('ฝากรถรายเดือน'),
+          child:  CircleAvatar(
+  backgroundColor: Color(0xffE6E6E6),
+
+  child: Icon(
+    Icons.person,
+    color: Color(0xffCCCCCC),
+   
+  
+  ),
+
+
+),
           ),
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายวัน'),
             onTap: () {
@@ -51,7 +66,7 @@ class _HomevmPageState extends State<HomevmPage> {
           ),
           ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายเดือน'),
             onTap: () {
@@ -62,9 +77,9 @@ class _HomevmPageState extends State<HomevmPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายวัน'),
+            title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvdPage(),
@@ -73,38 +88,36 @@ class _HomevmPageState extends State<HomevmPage> {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายเดือน'),
+            title: const Text('จัดการข้อมูลรายเดือน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvmPage(),
                   ));
             },
           ),
-         ListTile(
+  ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('คืนรถ(รายวัน)'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const returnvdPage(),
+                    builder: (context) => const rmnvdPage(),
                   ));
             },
           ),
 
-
-
-
-
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ออกจากระบบ'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context,MaterialPageRoute(
+                    builder: (context) => const LoginPage()
+                  ));
             },
           ),
         ],
@@ -191,71 +204,71 @@ class _HomevmPageState extends State<HomevmPage> {
   //   );
   // }
 
-  List<Widget> createDataList(QuerySnapshot<Map<String, dynamic>>? data) {
-    List<Widget> widgets = [];
-    widgets = data!.docs.map((doc) {
-      var data = doc.data();
-      print(data['username']);
-      return ListTile(
-        onTap: () {
-          print(doc.id);
-          // ดึงข้อมูล มาแสดง เพื่อแก้ไข
-        },
-        title: Text(
-            data['username'] + ", " + data['cars'].toString() + ","),
-        subtitle: Text(data['type']),
-        trailing: IconButton(
-            onPressed: () {
-              print("Delete");
-              showConfirmDialog(doc.id);
-            },
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.red,
-            )),
-      );
-    }).toList();
+//   List<Widget> createDataList(QuerySnapshot<Map<String, dynamic>>? data) {
+//     List<Widget> widgets = [];
+//     widgets = data!.docs.map((doc) {
+//       var data = doc.data();
+//       print(data['username']);
+//       return ListTile(
+//         onTap: () {
+//           print(doc.id);
+//           // ดึงข้อมูล มาแสดง เพื่อแก้ไข
+//         },
+//         title: Text(
+//             data['username'] + ", " + data['cars'].toString() + ","),
+//         subtitle: Text(data['type']),
+//         trailing: IconButton(
+//             onPressed: () {
+//               print("Delete");
+//               showConfirmDialog(doc.id);
+//             },
+//             icon: const Icon(
+//               Icons.delete,
+//               color: Colors.red,
+//             )),
+//       );
+//     }).toList();
 
-    return widgets;
-  }
+//     return widgets;
+//   }
 
-  void showConfirmDialog(String id) {
-    var dialog = AlertDialog(
-      title: const Text("ลบข้อมูล"),
-      content: Text("ต้องการลบข้อมูลเอกสารรหัส $id"),
-      actions: [
-        ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Back")),
-        ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.red[300]),
-                foregroundColor: const MaterialStatePropertyAll(Colors.white)),
-            onPressed: () {
-              FirebaseFirestore.instance.collection("Uname").doc(id).delete();
-            },
-            child: Text("Delete")),
-      ],
-    );
-    showDialog(
-      context: context,
-      builder: (context) => dialog,
-    );
-  }
+//   void showConfirmDialog(String id) {
+//     var dialog = AlertDialog(
+//       title: const Text("ลบข้อมูล"),
+//       content: Text("ต้องการลบข้อมูลเอกสารรหัส $id"),
+//       actions: [
+//         ElevatedButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text("Back")),
+//         ElevatedButton(
+//             style: ButtonStyle(
+//                 backgroundColor: MaterialStatePropertyAll(Colors.red[300]),
+//                 foregroundColor: const MaterialStatePropertyAll(Colors.white)),
+//             onPressed: () {
+//               FirebaseFirestore.instance.collection("Uname").doc(id).delete();
+//             },
+//             child: Text("Delete")),
+//       ],
+//     );
+//     showDialog(
+//       context: context,
+//       builder: (context) => dialog,
+//     );
+//   }
 
 
 
-//  child: Container(
-//               padding: const EdgeInsets.only(top: 170),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Container(
-//                     margin: const EdgeInsets.only(left: 35, right: 35),
-//                     child: Column(
-//                       children: [
+// //  child: Container(
+// //               padding: const EdgeInsets.only(top: 170),
+// //               child: Column(
+// //                 crossAxisAlignment: CrossAxisAlignment.start,
+// //                 children: [
+// //                   Container(
+// //                     margin: const EdgeInsets.only(left: 35, right: 35),
+// //                     child: Column(
+// //                       children: [
 
 
   Widget addDataSection() {
@@ -275,48 +288,103 @@ class _HomevmPageState extends State<HomevmPage> {
 
                    fontStyle: FontStyle.normal),),
 
-                     const Divider(),
+                   
+                   const Divider(),
 
           TextFormField
           (
+          
             controller: _nameController,
             decoration: const InputDecoration(
               labelText: "ชื่อ-นามสกุล",
             ),
+             validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
            
            
           ),
 
          TextFormField(
+      
             controller: _telCotroller,
             decoration: const InputDecoration(
               labelText: "เบอร์โทรศัพท์",
              
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
 
   
 
           TextFormField(
+          
             controller: _vrcarController,
             decoration: const InputDecoration(
               labelText: "เลขทะเบียน",
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
 
            TextFormField(
+        
             controller: _brandCotroller,
             decoration: const InputDecoration(
               labelText: "ยี่ห้อรถ",
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
 
            TextFormField(
+      
             controller: _colorCotroller,
             decoration: const InputDecoration(
               labelText: "สีรถ",
               ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
           ),
+           
+              TextFormField(
+            
+            controller: _amountCotroller,
+            decoration: const InputDecoration(
+              labelText: "จำนวนเงินที่ได้รับ",
+              ),
+               validator: (value) {
+    if (value!.isEmpty) {
+    return 'Enter text';
+    }
+    return null;
+    },
+          ),
+
+        
+
+        
+
 
 
 
@@ -362,6 +430,7 @@ class _HomevmPageState extends State<HomevmPage> {
                 "tel":_telCotroller.text,
                 "brand":_brandCotroller.text,
                 "color":_colorCotroller.text,
+                  "amount":_amountCotroller.text,
               });
               _formKey.currentState!.reset();
             },

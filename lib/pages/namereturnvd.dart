@@ -4,35 +4,30 @@ import 'package:proj/pages/editvd.dart';
 import 'package:proj/pages/homevd.dart';
 import 'package:proj/pages/homevm.dart';
 import 'package:proj/pages/loginpage.dart';
+import 'package:proj/pages/mnvd.dart';
 import 'package:proj/pages/mnvm.dart';
-import 'package:proj/pages/namereturnvd.dart';
+import 'package:proj/pages/returnvd.dart';
 
 
-class mnvdPage extends StatefulWidget {
-  const mnvdPage({ Key? key }) : super(key: key);
+class rmnvdPage extends StatefulWidget {
+  const rmnvdPage({ Key? key }) : super(key: key);
   
 
   @override
-  State<mnvdPage> createState() => _mndvPageState();
+  State<rmnvdPage> createState() => _rmndvPageState();
 }
   CollectionReference Vd = FirebaseFirestore.instance.collection('Vd');
 
-  Future<void> deleteProduct({required String id}) {
-    return Vd
-        .doc(id)
-        .delete()
-        .then((value) => print("Deleted data Successfully"))
-        .catchError((error) => print("Failed to delete user: $error"));
-  }
+ 
 
 
-
-class _mndvPageState extends State<mnvdPage> {
+class _rmndvPageState extends State<rmnvdPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _vrcarController = TextEditingController();
   final _dateCotroller = TextEditingController();
   final _telCotroller = TextEditingController();
+  final _amountCotroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +43,8 @@ class _mndvPageState extends State<mnvdPage> {
           const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
-              
-
             ),
-           child:  CircleAvatar(
+             child:  CircleAvatar(
   backgroundColor: Color(0xffE6E6E6),
 
   child: Icon(
@@ -63,8 +56,6 @@ class _mndvPageState extends State<mnvdPage> {
 
 
 ),
-         
-
           ),
           ListTile(
             leading: Icon(
@@ -95,7 +86,7 @@ class _mndvPageState extends State<mnvdPage> {
             title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const mnvdPage(),
+                    builder: (context) => const mnvdPage()
                   ));
             },
           ),
@@ -110,8 +101,7 @@ class _mndvPageState extends State<mnvdPage> {
                   ));
             },
           ),
-
-   ListTile(
+  ListTile(
             leading: Icon(
               Icons.car_crash,
             ),
@@ -137,7 +127,6 @@ class _mndvPageState extends State<mnvdPage> {
         ],
       ),
     ),
-      
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -158,7 +147,7 @@ class _mndvPageState extends State<mnvdPage> {
   Widget showRealtimeChange() {
     return Column(
       children: [
-       Text("จัดการข้อมูลรายวัน\n",style: TextStyle(fontSize: 30.0,
+       Text("รายการฝากรถรายวัน\n",style: TextStyle(fontSize: 30.0,
 
                    fontStyle: FontStyle.normal),),
         createRealTimeData(),
@@ -200,32 +189,20 @@ class _mndvPageState extends State<mnvdPage> {
             data['username'] + ", " + data['Ncar'] .toString() ),
         subtitle: Text("รายวัน"),
         trailing:
-         IconButton(
-            onPressed: () {
-              print("Delete");
-              showConfirmDialog(doc.id);
-            },
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
+       
 
-            ),
-
-
-
-            leading: IconButton(
+           IconButton(
             onPressed: () {
             Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => editvdPage(id: doc.id),
+                          builder: (context) => reditvdPage(id: doc.id),
                         ),
                       ).then((value) => setState(() {}));
             },
             icon: const Icon(
-              Icons.edit,
-              color: Colors.orange,
+              Icons.money,
+              color: Colors.green,
             ),
 
             ),

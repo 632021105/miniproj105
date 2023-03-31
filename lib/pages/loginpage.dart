@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
           child: ListView(
             shrinkWrap: true,
             children: [
+               
               Form(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +36,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 320,
                       child: Column(
                         children: [
+                          Text("เข้าสู่ระบบ\n",style: TextStyle(fontSize: 30.0,
+
+                   fontStyle: FontStyle.normal),),
                           buildEmailInput(),
                           buildPasswordInput(),
                         ],

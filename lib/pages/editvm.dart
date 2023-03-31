@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proj/pages/homevd.dart';
+import 'package:proj/pages/loginpage.dart';
 import 'package:proj/pages/mnvd.dart';
 import 'package:proj/pages/homevm.dart';
 import 'package:proj/pages/mnvm.dart';
+import 'package:proj/pages/namereturnvd.dart';
 import 'package:proj/pages/returnvd.dart';
+
 
 
 class editvmPage extends StatefulWidget {
@@ -46,22 +49,33 @@ Future<void> updateProduct() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('แก้ไขข้อมูลฝากรถรายวัน'),
+        title: const Text(''),
       ),
       drawer: Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+           const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-           child: Text('ฝากรถรายเดือน'),
+                child:  CircleAvatar(
+  backgroundColor: Color(0xffE6E6E6),
+
+  child: Icon(
+    Icons.person,
+    color: Color(0xffCCCCCC),
+   
+  
+  ),
+
+
+),
           ),
           ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายวัน'),
             onTap: () {
@@ -72,7 +86,7 @@ Future<void> updateProduct() {
           ),
           ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('ฝากรถรายเดือน'),
             onTap: () {
@@ -83,9 +97,9 @@ Future<void> updateProduct() {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายวัน'),
+            title: const Text('จัดการข้อมูลรายวัน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvdPage(),
@@ -94,29 +108,27 @@ Future<void> updateProduct() {
           ),
            ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
-            title: const Text('รายการฝากรถรายเดือน'),
+            title: const Text('จัดการข้อมูลรายเดือน'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
                     builder: (context) => const mnvmPage(),
                   ));
             },
           ),
-           ListTile(
+
+   ListTile(
             leading: Icon(
-              Icons.train,
+              Icons.car_crash,
             ),
             title: const Text('คืนรถ(รายวัน)'),
             onTap: () {
               Navigator.push(context,MaterialPageRoute(
-                    builder: (context) => const returnvdPage(),
+                    builder: (context) => const rmnvdPage(),
                   ));
             },
           ),
-
-
-
 
           ListTile(
             leading: Icon(
@@ -124,7 +136,9 @@ Future<void> updateProduct() {
             ),
             title: const Text('ออกจากระบบ'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context,MaterialPageRoute(
+                    builder: (context) => const LoginPage()
+                  ));
             },
           ),
         ],
@@ -167,9 +181,13 @@ Widget editformfield(BuildContext context) {
                   Container(
                     margin: const EdgeInsets.only(left: 35, right: 35),
                     child: Column(
-                      children: [
+                      children: [Text("แก้ไขข้อมูล\n",style: TextStyle(fontSize: 30.0,
+
+                   fontStyle: FontStyle.normal),),
+
 
                         TextFormField(
+                       
                           controller: _nameController,
                           decoration: InputDecoration(
                             label: Text(
@@ -177,6 +195,12 @@ Widget editformfield(BuildContext context) {
                 
                             ),
                           ),
+                           validator: (value) {
+                          if (value!.isEmpty) {
+                          return 'Enter text';
+                          }
+                          return null;
+                          },
                         ),
                       
 
@@ -185,6 +209,7 @@ Widget editformfield(BuildContext context) {
 
 
                         TextFormField(
+                      
                           controller: _vrcarController,
                           decoration: InputDecoration(
                             label: Text(
@@ -193,6 +218,12 @@ Widget editformfield(BuildContext context) {
                            
                           
                           ),
+                           validator: (value) {
+                          if (value!.isEmpty) {
+                          return 'Enter text';
+                          }
+                          return null;
+                          },
                         ),
 
 
